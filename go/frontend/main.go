@@ -4,7 +4,7 @@ import (
     "flag"
 	"runtime"
 
-	"github.com/twainy/tiroler-go/frontend/server"
+	"github.com/twainy/tiroler-go/go/frontend/server"
 	"github.com/golang/glog"
 )
 

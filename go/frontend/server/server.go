@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/twainy/tiroler/socket"
+	"github.com/twainy/tiroler-go/go/socket"
 	"github.com/golang/glog"
 	"github.com/gorilla/mux"
 )
