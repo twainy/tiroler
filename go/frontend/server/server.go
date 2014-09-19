@@ -37,7 +37,7 @@ func handleWs(w http.ResponseWriter, r *http.Request) {
 	if ws == nil {
 		return
 	}
-//	hub.Connect(ws)
+	// @todo handling request
 	<-ws.Closed() // block for logging
 }
 
