@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/twainy/tiroler-go/go/debug"
+	"github.com/twainy/tiroler-go/go/logging"
 	"github.com/twainy/tiroler-go/go/frontend/config"
 	"github.com/twainy/tiroler-go/go/socket"
 	"github.com/golang/glog"
