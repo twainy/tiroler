@@ -1,8 +1,0 @@
-{
-	"ImportPath": "_/Users/takeshi.wakasugi/Dropbox/ws/tiroler-go/go/socket",
-	"GoVersion": "go1.3",
-	"Packages": [
-		"github.com/gorilla/websocket"
-	],
-	"Deps": []
-}
