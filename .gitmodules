@@ -1,0 +1,3 @@
+[submodule "narou"]
+	path = narou
+	url = git://github.com/whiteleaf7/narou.git
