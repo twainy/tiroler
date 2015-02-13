@@ -1,10 +1,6 @@
 package tiroler
 
-import (
-	"fmt"
-	"io"
-	"time"
-)
+import "time"
 
 type Novel struct {
 	Ncode    string    `param:"ncode"`
@@ -20,11 +16,5 @@ var Novel = []Novel{
 	{"alice", "Wanna know a secret?", time.Now()},
 	{"bob", "Okay!", time.Now()},
 	{"eve", "I'm listening...", time.Now()},
-}
-
-// Write out a representation of the greet
-func (g Greet) Write(w io.Writer) {
-	fmt.Fprintf(w, "%s\n@%s at %s\n---\n", g.Message, g.User,
-		g.Time.Format(time.UnixDate))
 }
 
