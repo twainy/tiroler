@@ -8,11 +8,11 @@
 package main
 
 import (
-	"github.com/twainy/http"
+    "github.com/twainy/tiroler/http"
 )
 
 // Note: the code below cuts a lot of corners to make the example app simple.
 
 func main() {
-	http.Init
+	http.Start()
 }
