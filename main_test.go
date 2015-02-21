@@ -1,4 +1,4 @@
-package tiroler
+package main
 
 import (
 	"testing"
