@@ -1,0 +1,4 @@
+{
+  "Server":":6379",
+  "Maxconnection":10
+}

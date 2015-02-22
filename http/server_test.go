@@ -20,7 +20,7 @@ func ParseResponse(res *http.Response) (string, int) {
 
 func TestGetNovelInfo(t *testing.T) {
     m := web.New()
-    Route(m)
+    Setup(m)
     ts := httptest.NewServer(m)
     defer ts.Close()
     
