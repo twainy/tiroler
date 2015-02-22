@@ -8,6 +8,8 @@ import (
     "encoding/json"
     "fmt"
     "github.com/twainy/goban"
+    "runtime"
+    "reflect"
 )
 
 func Start () {
@@ -46,7 +48,7 @@ func setGetHandler(m *web.Mux, pattern interface{}, handler interface{}) {
 
 func responseCache (handler func(c web.C, w http.ResponseWriter, r *http.Request) map[string]string) interface{} {
     return func(c web.C, w http.ResponseWriter, r *http.Request) {
-        cache_key := ""
+        cache_key := runtime.FuncForPC(reflect.ValueOf(handler).Pointer()).Name()
         for k,v := range c.URLParams {
             cache_key = cache_key + k + "_" + v
         }
