@@ -1,7 +1,41 @@
 package http
 
-import "testing"
+import (
+    "testing"
+    "github.com/zenazn/goji/web"
+    "net/http/httptest"
+    "net/http"
+    "io/ioutil"
+    "fmt"
+)
 
-func TestStart(t *testing.T) {
-	Start()
+func ParseResponse(res *http.Response) (string, int) {
+    defer res.Body.Close()
+    contents, err := ioutil.ReadAll(res.Body)
+    if err != nil {
+        panic(err)
+    }
+    return string(contents), res.StatusCode
+    
+}
+
+func TestGetNovelInfo(t *testing.T) {
+    m := web.New()
+    Route(m)
+    ts := httptest.NewServer(m)
+    defer ts.Close()
+    
+    res, err := http.Get(ts.URL + "/novel/n9902bs")
+    if err != nil {
+        t.Error("unexpected")
+    }
+    
+    c, s := ParseResponse(res)
+    if s != http.StatusOK {
+        t.Error("invalid status code")
+    }
+    fmt.Print(c)
+    if c != `{"tcode":"aaaa"}` {
+        t.Errorf("Invalid response. %s", c)
+    }
 }
