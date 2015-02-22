@@ -6,7 +6,6 @@ import (
     "net/http/httptest"
     "net/http"
     "io/ioutil"
-    "fmt"
 )
 
 func ParseResponse(res *http.Response) (string, int) {
@@ -34,8 +33,7 @@ func TestGetNovelInfo(t *testing.T) {
     if s != http.StatusOK {
         t.Error("invalid status code")
     }
-    fmt.Print(c)
-    if c != `{"tcode":"aaaa"}` {
-        t.Errorf("Invalid response. %s", c)
+    if c != `{"tcode":"449858"}` {
+        t.Error("Invalid response.",  c)
     }
 }
