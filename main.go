@@ -5,10 +5,10 @@
 // In particular, this is a complete working site for gritter.com, a site where
 // users can post 140-character "greets". Any resemblance to real websites,
 // alive or dead, is purely coincidental.
-package tiroler
+package main
 
 import (
-    "github.com/twainy/tiroler/http"
+	"github.com/twainy/tiroler/http"
 )
 
 // Note: the code below cuts a lot of corners to make the example app simple.
