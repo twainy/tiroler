@@ -5,10 +5,24 @@ import (
     "fmt"
     "log"
     "regexp"
+    "strconv"
 )
+
+type NovelContentType int
 
 type Novel struct {
     tcode string
+    content_list []NovelContent
+}
+
+const ( // NovelContent Type
+    Chapter NovelContentType = iota
+    Sublist
+)
+type NovelContent struct {
+    ctype NovelContentType
+    text string
+    sublist_id int
 }
 
 func GetNovel(ncode string) (Novel, error) {
@@ -30,5 +44,24 @@ func GetNovel(ncode string) (Novel, error) {
         } else {
         }
     })
+    doc.Find("div.index_box").Children().Each(func(i int, s *goquery.Selection) {
+        if s.HasClass("chapter_title") {
+            c := NovelContent{}
+            c.ctype = Chapter
+            c.text = s.Text()
+            n.content_list = append(n.content_list, c)
+        }
+        if s.HasClass("novel_sublist2") {
+            subtitle := s.Find(".novel_sublist2 dd.subtitle")
+            url,_ := s.Find(".novel_sublist2 a").Attr("href")
+            re, _ := regexp.Compile("/[0-9]+/")
+            sublist_id,_ := strconv.Atoi(string(re.Find([]byte(url))))
+            c := NovelContent{}
+            c.ctype = Sublist
+            c.text = subtitle.Text()
+            c.sublist_id = sublist_id
+            n.content_list = append(n.content_list, c)
+        }
+    });
     return n, err
 }
