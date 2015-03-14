@@ -11,8 +11,8 @@ import (
 type NovelContentType int
 
 type Novel struct {
-    tcode string
-    content_list []NovelContent
+    Tcode string
+    ContentList []NovelContent
 }
 
 const ( // NovelContent Type
@@ -20,9 +20,9 @@ const ( // NovelContent Type
     Sublist
 )
 type NovelContent struct {
-    ctype NovelContentType
-    text string
-    sublist_id int
+    Ctype NovelContentType
+    Text string
+    SublistId int
 }
 
 func GetNovel(ncode string) (Novel, error) {
@@ -39,7 +39,7 @@ func GetNovel(ncode string) (Novel, error) {
             href,_ := s.Find("a").Attr("href")
             re, _ := regexp.Compile("[0-9]{6}")
             tcode := string(re.Find([]byte(href)))
-            n.tcode = tcode
+            n.Tcode = tcode
 
         } else {
         }
@@ -47,9 +47,9 @@ func GetNovel(ncode string) (Novel, error) {
     doc.Find("div.index_box").Children().Each(func(i int, s *goquery.Selection) {
         if s.HasClass("chapter_title") {
             c := NovelContent{}
-            c.ctype = Chapter
-            c.text = s.Text()
-            n.content_list = append(n.content_list, c)
+            c.Ctype = Chapter
+            c.Text = s.Text()
+            n.ContentList = append(n.ContentList, c)
         }
         if s.HasClass("novel_sublist2") {
             subtitle := s.Find(".novel_sublist2 dd.subtitle")
@@ -57,10 +57,10 @@ func GetNovel(ncode string) (Novel, error) {
             re, _ := regexp.Compile("/[0-9]+/")
             sublist_id,_ := strconv.Atoi(string(re.Find([]byte(url))))
             c := NovelContent{}
-            c.ctype = Sublist
-            c.text = subtitle.Text()
-            c.sublist_id = sublist_id
-            n.content_list = append(n.content_list, c)
+            c.Ctype = Sublist
+            c.Text = subtitle.Text()
+            c.SublistId = sublist_id
+            n.ContentList = append(n.ContentList, c)
         }
     });
     return n, err

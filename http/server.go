@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/twainy/goban"
-	"github.com/twainy/tiroler/api"
+	"github.com/twainy/tiroler/crawler"
 	"github.com/zenazn/goji"
 	"github.com/zenazn/goji/web"
 	"net/http"
@@ -68,8 +68,8 @@ func responseCache(handler func(c web.C, w http.ResponseWriter, r *http.Request)
 func getNovelInfo(c web.C, w http.ResponseWriter, r *http.Request) map[string]string {
 	ncode := c.URLParams["ncode"]
 	fmt.Println("get novel info novel", ncode)
-	tcode, err := api.GetTcode(ncode)
-	response_map := map[string]string{"tcode": tcode}
+	novel, err := crawler.GetNovel(ncode)
+	response_map := map[string]string{"tcode": novel.Tcode}
 	if err != nil {
 		http.Error(w, http.StatusText(404), 404)
 		return nil
