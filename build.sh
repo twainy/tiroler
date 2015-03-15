@@ -6,3 +6,5 @@ if [ ! -x src/github.com/twainy/tiroler ];then
 fi
 go get github.com/twainy/goban
 go get github.com/zenazn/goji
+go get github.com/PuerkitoBio/goquery
+go build

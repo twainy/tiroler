@@ -39,37 +39,33 @@ func Root(w http.ResponseWriter, r *http.Request) {
 	http.Error(w, http.StatusText(404), 404)
 }
 
-type NovelResponse struct {
-	Tcode string
-}
-
 func setGetHandler(m *web.Mux, pattern interface{}, handler interface{}) {
 	m.Get(pattern, handler)
 }
 
-func responseCache(handler func(c web.C, w http.ResponseWriter, r *http.Request) map[string]string) interface{} {
+func responseCache(handler func(c web.C, w http.ResponseWriter, r *http.Request) string) interface{} {
 	return func(c web.C, w http.ResponseWriter, r *http.Request) {
 		cache_key := runtime.FuncForPC(reflect.ValueOf(handler).Pointer()).Name()
 		for k, v := range c.URLParams {
 			cache_key = cache_key + k + "_" + v
 		}
 		json_str, err := goban.Get(cache_key)
+        fmt.Print(json_str)
 		if err != nil {
-			response_map := handler(c, w, r)
-			json_response, _ := json.Marshal(response_map)
-			json_str = string(json_response)
-			goban.Set(cache_key, string(json_str))
+			json_str := handler(c, w, r)
+			goban.Set(cache_key, json_str)
 		}
-		fmt.Fprint(w, string(json_str))
+		fmt.Fprint(w, json_str)
 	}
 }
 
 // GetUser finds a given user and her greets (GET "/user/:name")
-func getNovelInfo(c web.C, w http.ResponseWriter, r *http.Request) crawler.Novel {
+func getNovelInfo(c web.C, w http.ResponseWriter, r *http.Request) string {
 	ncode := c.URLParams["ncode"]
 	fmt.Println("get novel info novel", ncode)
 	novel, _ := crawler.GetNovel(ncode)
-    return novel
+    json_response, _ := json.Marshal(novel)
+    return string(json_response)
 }
 
 // PlainText sets the content-type of responses to text/plain.
