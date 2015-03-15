@@ -65,16 +65,11 @@ func responseCache(handler func(c web.C, w http.ResponseWriter, r *http.Request)
 }
 
 // GetUser finds a given user and her greets (GET "/user/:name")
-func getNovelInfo(c web.C, w http.ResponseWriter, r *http.Request) map[string]string {
+func getNovelInfo(c web.C, w http.ResponseWriter, r *http.Request) crawler.Novel {
 	ncode := c.URLParams["ncode"]
 	fmt.Println("get novel info novel", ncode)
-	novel, err := crawler.GetNovel(ncode)
-	response_map := map[string]string{"tcode": novel.Tcode}
-	if err != nil {
-		http.Error(w, http.StatusText(404), 404)
-		return nil
-	}
-	return response_map
+	novel, _ := crawler.GetNovel(ncode)
+    return novel
 }
 
 // PlainText sets the content-type of responses to text/plain.

@@ -11,8 +11,8 @@ import (
 type NovelContentType int
 
 type Novel struct {
-    Tcode string
-    ContentList []NovelContent
+    Tcode string `json:"tcode"`
+    ContentList []NovelContent `json:"content_list"`
 }
 
 const ( // NovelContent Type
@@ -20,9 +20,9 @@ const ( // NovelContent Type
     Sublist
 )
 type NovelContent struct {
-    Ctype NovelContentType
-    Text string
-    SublistId int
+    Ctype NovelContentType `json:"ctype"`
+    Text string `json:"text"`
+    SublistId int `json:"sublist_id"`
 }
 
 func GetNovel(ncode string) (Novel, error) {
