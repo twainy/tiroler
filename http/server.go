@@ -47,10 +47,10 @@ func responseCache(handler func(c web.C, w http.ResponseWriter, r *http.Request)
 	return func(c web.C, w http.ResponseWriter, r *http.Request) {
 		cache_key := runtime.FuncForPC(reflect.ValueOf(handler).Pointer()).Name()
 		for k, v := range c.URLParams {
-			cache_key = cache_key + k + "_" + v
+			cache_key = "v2" + cache_key + k + "_" + v
 		}
 		json_str, err := goban.Get(cache_key)
-        fmt.Print(json_str)
+		fmt.Print(json_str)
 		if err != nil {
 			json_str := handler(c, w, r)
 			goban.Set(cache_key, json_str)
@@ -64,8 +64,8 @@ func getNovelInfo(c web.C, w http.ResponseWriter, r *http.Request) string {
 	ncode := c.URLParams["ncode"]
 	fmt.Println("get novel info novel", ncode)
 	novel, _ := crawler.GetNovel(ncode)
-    json_response, _ := json.Marshal(novel)
-    return string(json_response)
+	json_response, _ := json.Marshal(novel)
+	return string(json_response)
 }
 
 // PlainText sets the content-type of responses to text/plain.
