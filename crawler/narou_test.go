@@ -1,6 +1,7 @@
 package crawler
 import (
     "testing"
+    "strconv"
 )
 
 
@@ -20,6 +21,9 @@ func TestGetnovel(t *testing.T) {
     }
     if n.ContentList[1].Text != "プロローグ" {
         t.Error("invalid text")
+    }
+    if n.ContentList[1].SublistId != 1 {
+        t.Error("invalid sublist id:"+ strconv.Itoa(n.ContentList[1].SublistId))
     }
 
 }
