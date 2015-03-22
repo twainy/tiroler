@@ -53,7 +53,7 @@ func responseCache(handler func(c web.C, w http.ResponseWriter, r *http.Request)
 		if err != nil || json_str == "" {
             fmt.Println("use crawling")
 			json_str = handler(c, w, r)
-			goban.Set(cache_key, json_str)
+			goban.Setex(cache_key, 180, json_str)
 		}
         fmt.Println("output"+json_str)
 		fmt.Fprint(w, json_str)
