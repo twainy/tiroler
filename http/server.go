@@ -50,11 +50,12 @@ func responseCache(handler func(c web.C, w http.ResponseWriter, r *http.Request)
 			cache_key = "v2" + cache_key + k + "_" + v
 		}
 		json_str, err := goban.Get(cache_key)
-		fmt.Print(json_str)
-		if err != nil {
-			json_str := handler(c, w, r)
+		if err != nil || json_str == "" {
+            fmt.Println("use crawling")
+			json_str = handler(c, w, r)
 			goban.Set(cache_key, json_str)
 		}
+        fmt.Println("output"+json_str)
 		fmt.Fprint(w, json_str)
 	}
 }
