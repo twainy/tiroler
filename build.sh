@@ -1,5 +1,6 @@
 #!/bin/sh
 export GOPATH=`pwd`
+rm -rf src/*
 if [ ! -x src/github.com/twainy/tiroler ];then
     mkdir -p src/github.com/twainy
     ln -s `pwd` src/github.com/twainy/tiroler 
