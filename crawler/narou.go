@@ -23,6 +23,7 @@ type NovelContent struct {
     Ctype NovelContentType `json:"ctype"`
     Text string `json:"text"`
     SublistId int `json:"sublist_id"`
+    Content string `json:"content"`
 }
 
 func GetNovel(ncode string) (Novel, error) {
@@ -56,7 +57,6 @@ func GetNovel(ncode string) (Novel, error) {
             url,_ := s.Find(".novel_sublist2 a").Attr("href")
             re, _ := regexp.Compile("/([0-9]+)/")
             sublist_id,_ := strconv.Atoi(re.FindStringSubmatch(url)[1])
-            fmt.Print(sublist_id)
             c := NovelContent{}
             c.Ctype = Sublist
             c.Text = subtitle.Text()
@@ -65,4 +65,20 @@ func GetNovel(ncode string) (Novel, error) {
         }
     });
     return n, err
+}
+
+func GetNovelContent(ncode string ,chapter_id int) NovelContent {
+    url := fmt.Sprintf("http://ncode.syosetu.com/%s/%d", ncode, chapter_id)
+    doc, err := goquery.NewDocument(url)
+    log.Println("get content " + url)
+    if err != nil {
+       log.Fatal(err);
+    }
+    content_title := doc.Find(".novel_subtitle").Text()
+    content := doc.Find("#novel_honbun").Text()
+
+    c := NovelContent{}
+    c.Text = content_title
+    c.Content = content
+    return c
 }

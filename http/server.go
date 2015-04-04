@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"reflect"
 	"runtime"
+    "strconv"
 )
 
 func Start() {
@@ -27,6 +28,7 @@ func route(m *web.Mux) {
 	setGetHandler(m, "/", Root)
 	// Use Sinatra-style patterns in your URLs
 	setGetHandler(m, "/novel/:ncode", responseCache(getNovelInfo))
+    setGetHandler(m, "/novel_content/:ncode/:sublist_id", responseCache(getNovelContent))
 
 	// Middleware can be used to inject behavior into your app. The
 	// middleware for this application are defined in middleware.go, but you
@@ -65,6 +67,16 @@ func getNovelInfo(c web.C, w http.ResponseWriter, r *http.Request) string {
 	ncode := c.URLParams["ncode"]
 	fmt.Println("get novel info novel", ncode)
 	novel, _ := crawler.GetNovel(ncode)
+	json_response, _ := json.Marshal(novel)
+	return string(json_response)
+}
+
+// GetUser finds a given user and her greets (GET "/user/:name")
+func getNovelContent(c web.C, w http.ResponseWriter, r *http.Request) string {
+	ncode := c.URLParams["ncode"]
+    sublist_id,_ := strconv.Atoi(c.URLParams["sublist_id"])
+	fmt.Println("get novel content novel", ncode, sublist_id)
+	novel := crawler.GetNovelContent(ncode, sublist_id)
 	json_response, _ := json.Marshal(novel)
 	return string(json_response)
 }

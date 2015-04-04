@@ -27,3 +27,10 @@ func TestGetnovel(t *testing.T) {
     }
 
 }
+
+func TestGetNovelContent(t *testing.T) {
+    n := GetNovelContent("n3009bk", 780)
+    if n.Text != "特産品" {
+        t.Error("invalid text")
+    }
+}
